@@ -257,15 +257,7 @@ DrumsRideWidget::DrumsRideWidget()
 {
 	DrumsRide *module = new DrumsRide();
 	setModule(module);
-	box.size = Vec(15 * 4, 380);
-
-	{
-        SVGPanel *panel = new SVGPanel();
-        panel->box.size = box.size;
-        panel->setBackground(SVG::load(assetPlugin(plugin, "res/DrumsRide.svg")));
-        
-        addChild(panel);
-	}
+	setPanel(SVG::load(assetPlugin(plugin, "res/DrumsRide.svg")));
 
 	addChild(createScrew<ScrewSilver>(Vec(15,   0)));
 	addChild(createScrew<ScrewSilver>(Vec(15, 365)));

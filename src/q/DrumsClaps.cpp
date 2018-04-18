@@ -1,9 +1,10 @@
 #include "Autodafe.hpp"
-#include "rimclaves.h"
+#include "claps.h"
 #include "dsp/digital.hpp"
 
 
-struct DrumsRimClaves : Module {
+
+struct DrumsClaps : Module {
 	enum ParamIds {
         SAMPLETYPE,
      
@@ -23,7 +24,8 @@ struct DrumsRimClaves : Module {
     int sampletype = 1;
     float lights[8]={};
     float light=0;
-       unsigned int count1 = 0;
+    
+    unsigned int count1 = 0;
     unsigned int count2 = 0;
     unsigned int count3 = 0;
      unsigned int count4 = 0;
@@ -33,8 +35,10 @@ struct DrumsRimClaves : Module {
      unsigned int count8 = 0;
 
 	
-	DrumsRimClaves();
+	DrumsClaps();
 	void step();
+
+
 
 
 
@@ -55,10 +59,15 @@ struct DrumsRimClaves : Module {
 
 
 
-    
+
+
+
+
+
+
 };
 
-DrumsRimClaves::DrumsRimClaves()
+DrumsClaps::DrumsClaps()
 {
 	params.resize(NUM_PARAMS);
 	inputs.resize(NUM_INPUTS);
@@ -71,14 +80,14 @@ DrumsRimClaves::DrumsRimClaves()
     
 	// disarm
     
-    count1  = RIM_sample1_len;
-    count2  = RIM_sample2_len;
-    count3  = RIM_sample3_len;
-    count4  = RIM_sample4_len;
-    count5  = RIM_sample5_len;
-    count6  = RIM_sample6_len;
-    count7  = RIM_sample7_len;
-    count8  = RIM_sample8_len;
+    count1  = CLAP_sample1_len;
+    count2  = CLAP_sample2_len;
+    count3  = CLAP_sample3_len;
+    count4  = CLAP_sample4_len;
+    count5  = CLAP_sample5_len;
+    count6  = CLAP_sample6_len;
+    count7  = CLAP_sample7_len;
+    count8  = CLAP_sample8_len;
    
 }
 
@@ -89,7 +98,7 @@ DrumsRimClaves::DrumsRimClaves()
 
 
 
-void DrumsRimClaves::step()
+void DrumsClaps::step()
 {
     
     
@@ -129,14 +138,14 @@ void DrumsRimClaves::step()
     
 	if (sampletype == 1)
     {
-                if( count1 < RIM_sample1_len ) {
+                if( count1 < CLAP_sample1_len ) {
                     int16_t sample;
-                    sample  = RIM_sample1[count1++];
-                    sample |= RIM_sample1[count1++] << 8;
+                    sample  = CLAP_sample1[count1++];
+                    sample |= CLAP_sample1[count1++] << 8;
                     
-                    outputs[AUDIO_OUTPUT].value =  5.0 * (float)sample / RIM_sample1_len ;
+                    outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / CLAP_sample1_len  ;
                 } else {
-                    outputs[AUDIO_OUTPUT].value =  0.0 ;
+                    outputs[AUDIO_OUTPUT].value= 0.0 ;
                 }
     }
     
@@ -145,14 +154,14 @@ void DrumsRimClaves::step()
     
     if (sampletype == 2)
     {
-        if( count2 < RIM_sample2_len ) {
+        if( count2 < CLAP_sample2_len ) {
             int16_t sample;
-            sample  = RIM_sample2[count2++];
-            sample |= RIM_sample2[count2++] << 8;
+            sample  = CLAP_sample2[count2++];
+            sample |= CLAP_sample2[count2++] << 8;
             
-            outputs[AUDIO_OUTPUT].value =  5.0 * (float)sample / RIM_sample2_len ;
+            outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / CLAP_sample2_len ;
         } else {
-            outputs[AUDIO_OUTPUT].value =  0.0 ;
+            outputs[AUDIO_OUTPUT].value= 0.0 ;
         }
     }
     
@@ -160,14 +169,14 @@ void DrumsRimClaves::step()
     
     if (sampletype == 3)
     {
-        if( count3 < RIM_sample3_len ) {
+        if( count3 < CLAP_sample3_len ) {
             int16_t sample;
-            sample  = RIM_sample3[count3++];
-            sample |= RIM_sample3[count3++] << 8;
+            sample  = CLAP_sample3[count3++];
+            sample |= CLAP_sample3[count3++] << 8;
             
-            outputs[AUDIO_OUTPUT].value =  5.0 * (float)sample / RIM_sample3_len ;
+            outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / CLAP_sample3_len ;
         } else {
-            outputs[AUDIO_OUTPUT].value =  0.0 ;
+            outputs[AUDIO_OUTPUT].value= 0.0 ;
         }
     }
     
@@ -178,14 +187,14 @@ void DrumsRimClaves::step()
     
     if (sampletype == 4)
     {
-        if( count4 < RIM_sample4_len ) {
+        if( count4 < CLAP_sample4_len ) {
             int16_t sample;
-            sample  = RIM_sample4[count4++];
-            sample |= RIM_sample4[count4++] << 8;
+            sample  = CLAP_sample4[count4++];
+            sample |= CLAP_sample4[count4++] << 8;
             
-            outputs[AUDIO_OUTPUT].value =  5.0 * (float)sample / RIM_sample4_len ;
+            outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / CLAP_sample4_len ;
         } else {
-            outputs[AUDIO_OUTPUT].value =  0.0 ;
+            outputs[AUDIO_OUTPUT].value= 0.0 ;
         }
     }
     
@@ -193,14 +202,14 @@ void DrumsRimClaves::step()
     
     if (sampletype == 5)
     {
-        if( count5 < RIM_sample5_len ) {
+        if( count5 < CLAP_sample5_len ) {
             int16_t sample;
-            sample  = RIM_sample5[count5++];
-            sample |= RIM_sample5[count5++] << 8;
+            sample  = CLAP_sample5[count5++];
+            sample |= CLAP_sample5[count5++] << 8;
             
-            outputs[AUDIO_OUTPUT].value =  5.0 * (float)sample / RIM_sample5_len ;
+            outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / CLAP_sample5_len ;
         } else {
-            outputs[AUDIO_OUTPUT].value =  0.0 ;
+            outputs[AUDIO_OUTPUT].value =0.0 ;
         }
     }
     
@@ -208,14 +217,14 @@ void DrumsRimClaves::step()
     
     if (sampletype == 6)
     {
-        if( count6 < RIM_sample6_len ) {
+        if( count6 < CLAP_sample6_len ) {
             int16_t sample;
-            sample  = RIM_sample6[count6++];
-            sample |= RIM_sample6[count6++] << 8;
+            sample  = CLAP_sample6[count6++];
+            sample |= CLAP_sample6[count6++] << 8;
             
-            outputs[AUDIO_OUTPUT].value =  5.0 * (float)sample / RIM_sample6_len ;
+            outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / CLAP_sample6_len ;
         } else {
-            outputs[AUDIO_OUTPUT].value =  0.0 ;
+            outputs[AUDIO_OUTPUT].value=  0.0 ;
         }
     }
     
@@ -223,14 +232,14 @@ void DrumsRimClaves::step()
     
     if (sampletype == 7)
     {
-        if( count7 < RIM_sample7_len ) {
+        if( count7 < CLAP_sample7_len ) {
             int16_t sample;
-            sample  = RIM_sample7[count7++];
-            sample |= RIM_sample7[count7++] << 8;
+            sample  = CLAP_sample7[count7++];
+            sample |= CLAP_sample7[count7++] << 8;
             
-            outputs[AUDIO_OUTPUT].value =  5.0 * (float)sample / RIM_sample7_len ;
+            outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / CLAP_sample7_len ;
         } else {
-            outputs[AUDIO_OUTPUT].value =  0.0 ;
+            outputs[AUDIO_OUTPUT].value= 0.0 ;
         }
     }
    
@@ -239,40 +248,32 @@ void DrumsRimClaves::step()
     
     if (sampletype == 8)
     {
-        if( count8 < RIM_sample8_len ) {
+        if( count8 < CLAP_sample8_len ) {
             int16_t sample;
-            sample  = RIM_sample8[count8++];
-            sample |= RIM_sample8[count8++] << 8;
+            sample  = CLAP_sample8[count8++];
+            sample |= CLAP_sample8[count8++] << 8;
             
-            outputs[AUDIO_OUTPUT].value =  5.0 * (float)sample / RIM_sample8_len ;
+            outputs[AUDIO_OUTPUT].value=5.0 * (float)sample / CLAP_sample8_len ;
         } else {
-            outputs[AUDIO_OUTPUT].value =  0.0 ;
+            outputs[AUDIO_OUTPUT].value= 0.0 ;
         }
     }
     
     
 }
 
-DrumsRimClavesWidget::DrumsRimClavesWidget()
+DrumsClapsWidget::DrumsClapsWidget()
 {
-	DrumsRimClaves *module = new DrumsRimClaves();
+	DrumsClaps *module = new DrumsClaps();
 	setModule(module);
-	box.size = Vec(15 * 4, 380);
-
-	{
-        SVGPanel *panel = new SVGPanel();
-        panel->box.size = box.size;
-                panel->setBackground(SVG::load(assetPlugin(plugin, "res/DrumsRimClaves.svg")));
-     
-        addChild(panel);
-	}
+	setPanel(SVG::load(assetPlugin(plugin, "res/DrumsClaps.svg")));
 
 	addChild(createScrew<ScrewSilver>(Vec(15,   0)));
 	addChild(createScrew<ScrewSilver>(Vec(15, 365)));
     
-    addParam(createParam<LEDButton>(Vec(21, 60), module, DrumsRimClaves::SAMPLETYPE, 0.0, 1.0, 0.0));
+    addParam(createParam<LEDButton>(Vec(21, 60), module, DrumsClaps::SAMPLETYPE, 0.0, 1.0, 0.0));
     
-    //addParam(createParam<Davies1900hBlackKnob>(Vec(30, 80), module, DrumsRimClaves::PITCH, -12, 12.0, 0.0));
+    //addParam(createParam<Davies1900hBlackKnob>(Vec(30, 80), module, DrumsClaps::PITCH, -12, 12.0, 0.0));
     
      
     
@@ -289,7 +290,7 @@ DrumsRimClavesWidget::DrumsRimClavesWidget()
 
     
 
-	addInput (createInput <PJ3410Port>(Vec( 0, 300), module, DrumsRimClaves::TRIG_INPUT));
-	addOutput(createOutput<PJ3410Port>(Vec(30, 300), module, DrumsRimClaves::AUDIO_OUTPUT));
+	addInput (createInput <PJ3410Port>(Vec( 0, 300), module, DrumsClaps::TRIG_INPUT));
+	addOutput(createOutput<PJ3410Port>(Vec(30, 300), module, DrumsClaps::AUDIO_OUTPUT));
 
 }

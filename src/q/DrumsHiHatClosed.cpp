@@ -1,9 +1,9 @@
 #include "Autodafe.hpp"
-#include "hhopen.h"
+#include "hhclosed.h"
 #include "dsp/digital.hpp"
 
 
-struct DrumsHiHatOpen : Module {
+struct DrumsHiHatClosed : Module {
 	enum ParamIds {
         SAMPLETYPE,
      
@@ -23,7 +23,7 @@ struct DrumsHiHatOpen : Module {
     int sampletype = 1;
     float lights[8]={};
     float light=0;
-      unsigned int count1 = 0;
+       unsigned int count1 = 0;
     unsigned int count2 = 0;
     unsigned int count3 = 0;
      unsigned int count4 = 0;
@@ -33,9 +33,8 @@ struct DrumsHiHatOpen : Module {
      unsigned int count8 = 0;
 
 	
-	DrumsHiHatOpen();
+	DrumsHiHatClosed();
 	void step();
-
 
 
 
@@ -59,7 +58,7 @@ struct DrumsHiHatOpen : Module {
     
 };
 
-DrumsHiHatOpen::DrumsHiHatOpen()
+DrumsHiHatClosed::DrumsHiHatClosed()
 {
 	params.resize(NUM_PARAMS);
 	inputs.resize(NUM_INPUTS);
@@ -72,14 +71,14 @@ DrumsHiHatOpen::DrumsHiHatOpen()
     
 	// disarm
     
-    count1  = HHOP_sample1_len;
-    count2  = HHOP_sample2_len;
-    count3  = HHOP_sample3_len;
-    count4  = HHOP_sample4_len;
-    count5  = HHOP_sample5_len;
-    count6  = HHOP_sample6_len;
-    count7  = HHOP_sample7_len;
-    count8  = HHOP_sample8_len;
+    count1  = HHCL_sample1_len;
+    count2  = HHCL_sample2_len;
+    count3  = HHCL_sample3_len;
+    count4  = HHCL_sample4_len;
+    count5  = HHCL_sample5_len;
+    count6  = HHCL_sample6_len;
+    count7  = HHCL_sample7_len;
+    count8  = HHCL_sample8_len;
    
 }
 
@@ -90,7 +89,7 @@ DrumsHiHatOpen::DrumsHiHatOpen()
 
 
 
-void DrumsHiHatOpen::step()
+void DrumsHiHatClosed::step()
 {
     
     
@@ -130,12 +129,12 @@ void DrumsHiHatOpen::step()
     
 	if (sampletype == 1)
     {
-                if( count1 < HHOP_sample1_len ) {
+                if( count1 < HHCL_sample1_len ) {
                     int16_t sample;
-                    sample  = HHOP_sample1[count1++];
-                    sample |= HHOP_sample1[count1++] << 8;
+                    sample  = HHCL_sample1[count1++];
+                    sample |= HHCL_sample1[count1++] << 8;
                     
-                    outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / HHOP_sample1_len  ;
+                    outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / HHCL_sample1_len  ;
                 } else {
                     outputs[AUDIO_OUTPUT].value= 0.0 ;
                 }
@@ -146,12 +145,12 @@ void DrumsHiHatOpen::step()
     
     if (sampletype == 2)
     {
-        if( count2 < HHOP_sample2_len ) {
+        if( count2 < HHCL_sample2_len ) {
             int16_t sample;
-            sample  = HHOP_sample2[count2++];
-            sample |= HHOP_sample2[count2++] << 8;
+            sample  = HHCL_sample2[count2++];
+            sample |= HHCL_sample2[count2++] << 8;
             
-            outputs[AUDIO_OUTPUT].value=5.0 * (float)sample / HHOP_sample2_len ;
+            outputs[AUDIO_OUTPUT].value=5.0 * (float)sample / HHCL_sample2_len ;
         } else {
             outputs[AUDIO_OUTPUT].value= 0.0 ;
         }
@@ -161,12 +160,12 @@ void DrumsHiHatOpen::step()
     
     if (sampletype == 3)
     {
-        if( count3 < HHOP_sample3_len ) {
+        if( count3 < HHCL_sample3_len ) {
             int16_t sample;
-            sample  = HHOP_sample3[count3++];
-            sample |= HHOP_sample3[count3++] << 8;
+            sample  = HHCL_sample3[count3++];
+            sample |= HHCL_sample3[count3++] << 8;
             
-            outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / HHOP_sample3_len ;
+            outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / HHCL_sample3_len ;
         } else {
             outputs[AUDIO_OUTPUT].value= 0.0 ;
         }
@@ -179,12 +178,12 @@ void DrumsHiHatOpen::step()
     
     if (sampletype == 4)
     {
-        if( count4 < HHOP_sample4_len ) {
+        if( count4 < HHCL_sample4_len ) {
             int16_t sample;
-            sample  = HHOP_sample4[count4++];
-            sample |= HHOP_sample4[count4++] << 8;
+            sample  = HHCL_sample4[count4++];
+            sample |= HHCL_sample4[count4++] << 8;
             
-            outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / HHOP_sample4_len ;
+            outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / HHCL_sample4_len ;
         } else {
             outputs[AUDIO_OUTPUT].value= 0.0 ;
         }
@@ -194,12 +193,12 @@ void DrumsHiHatOpen::step()
     
     if (sampletype == 5)
     {
-        if( count5 < HHOP_sample5_len ) {
+        if( count5 < HHCL_sample5_len ) {
             int16_t sample;
-            sample  = HHOP_sample5[count5++];
-            sample |= HHOP_sample5[count5++] << 8;
+            sample  = HHCL_sample5[count5++];
+            sample |= HHCL_sample5[count5++] << 8;
             
-            outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / HHOP_sample5_len ;
+            outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / HHCL_sample5_len ;
         } else {
             outputs[AUDIO_OUTPUT].value= 0.0 ;
         }
@@ -209,14 +208,14 @@ void DrumsHiHatOpen::step()
     
     if (sampletype == 6)
     {
-        if( count6 < HHOP_sample6_len ) {
+        if( count6 < HHCL_sample6_len ) {
             int16_t sample;
-            sample  = HHOP_sample6[count6++];
-            sample |= HHOP_sample6[count6++] << 8;
+            sample  = HHCL_sample6[count6++];
+            sample |= HHCL_sample6[count6++] << 8;
             
-            outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / HHOP_sample6_len ;
+            outputs[AUDIO_OUTPUT].value=5.0 * (float)sample / HHCL_sample6_len ;
         } else {
-            outputs[AUDIO_OUTPUT].value= 0.0 ;
+            outputs[AUDIO_OUTPUT].value=0.0 ;
         }
     }
     
@@ -224,12 +223,12 @@ void DrumsHiHatOpen::step()
     
     if (sampletype == 7)
     {
-        if( count7 < HHOP_sample7_len ) {
+        if( count7 < HHCL_sample7_len ) {
             int16_t sample;
-            sample  = HHOP_sample7[count7++];
-            sample |= HHOP_sample7[count7++] << 8;
+            sample  = HHCL_sample7[count7++];
+            sample |= HHCL_sample7[count7++] << 8;
             
-            outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / HHOP_sample7_len ;
+            outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / HHCL_sample7_len ;
         } else {
             outputs[AUDIO_OUTPUT].value= 0.0 ;
         }
@@ -240,42 +239,34 @@ void DrumsHiHatOpen::step()
     
     if (sampletype == 8)
     {
-        if( count8 < HHOP_sample8_len ) {
+        if( count8 < HHCL_sample8_len ) {
             int16_t sample;
-            sample  = HHOP_sample8[count8++];
-            sample |= HHOP_sample8[count8++] << 8;
+            sample  = HHCL_sample8[count8++];
+            sample |= HHCL_sample8[count8++] << 8;
             
-            outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / HHOP_sample8_len ;
+            outputs[AUDIO_OUTPUT].value= 5.0 * (float)sample / HHCL_sample8_len ;
         } else {
-           outputs[AUDIO_OUTPUT].value= 0.0 ;
+            outputs[AUDIO_OUTPUT].value= 0.0 ;
         }
     }
     
     
 }
 
-DrumsHiHatOpenWidget::DrumsHiHatOpenWidget()
+DrumsHiHatClosedWidget::DrumsHiHatClosedWidget()
 {
-	DrumsHiHatOpen *module = new DrumsHiHatOpen();
+	DrumsHiHatClosed *module = new DrumsHiHatClosed();
 	setModule(module);
-	box.size = Vec(15 * 4, 380);
-
-	{
-        SVGPanel *panel = new SVGPanel();
-        panel->box.size = box.size;
-        panel->setBackground(SVG::load(assetPlugin(plugin, "res/DrumsHiHatOpen.svg")));
-        
-        addChild(panel);
-	}
+	setPanel(SVG::load(assetPlugin(plugin, "res/DrumsHiHatClosed.svg")));
 
 	addChild(createScrew<ScrewSilver>(Vec(15,   0)));
 	addChild(createScrew<ScrewSilver>(Vec(15, 365)));
     
-    addParam(createParam<LEDButton>(Vec(21, 60), module, DrumsHiHatOpen::SAMPLETYPE, 0.0, 1.0, 0.0));
+    addParam(createParam<LEDButton>(Vec(21, 60), module, DrumsHiHatClosed::SAMPLETYPE, 0.0, 1.0, 0.0));
     
-    //addParam(createParam<Davies1900hBlackKnob>(Vec(30, 80), module, DrumsHiHatOpen::PITCH, -12, 12.0, 0.0));
+    //addParam(createParam<Davies1900hBlackKnob>(Vec(30, 80), module, DrumsHiHatClosed::PITCH, -12, 12.0, 0.0));
     
-     
+    
     
     addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(26,65), &module->light));
 	
@@ -290,7 +281,7 @@ DrumsHiHatOpenWidget::DrumsHiHatOpenWidget()
 
     
 
-	addInput (createInput <PJ3410Port>(Vec( 0, 300), module, DrumsHiHatOpen::TRIG_INPUT));
-	addOutput(createOutput<PJ3410Port>(Vec(30, 300), module, DrumsHiHatOpen::AUDIO_OUTPUT));
+	addInput (createInput <PJ3410Port>(Vec( 0, 300), module, DrumsHiHatClosed::TRIG_INPUT));
+	addOutput(createOutput<PJ3410Port>(Vec(30, 300), module, DrumsHiHatClosed::AUDIO_OUTPUT));
 
 }

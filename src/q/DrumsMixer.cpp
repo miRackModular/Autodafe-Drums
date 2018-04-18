@@ -430,15 +430,7 @@ float mixR = (ch1R + ch2R + ch3R +ch4R + ch5R + ch6R + ch7R + ch8R) * params[MIX
 DrumsMixerWidget::DrumsMixerWidget() {
 	DrumsMixer *module = new DrumsMixer();
 	setModule(module);
-	box.size = Vec(15*37, 380);
-
-	{
-		SVGPanel *panel = new SVGPanel();
-		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/DrumsMixer.svg")));
-		
-		addChild(panel);
-	} 
+	setPanel(SVG::load(assetPlugin(plugin, "res/DrumsMixer.svg")));
 
 
 	addChild(createScrew<ScrewSilver>(Vec(2, 0)));

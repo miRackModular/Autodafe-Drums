@@ -1,3 +1,6 @@
+RACK_DIR ?= ../..
+SLUG = Autodafe-Drums
+VERSION = 0.6.0
 
 SOURCES = $(wildcard src/*.cpp)
 

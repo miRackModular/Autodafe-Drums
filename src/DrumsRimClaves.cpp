@@ -64,7 +64,7 @@ DrumsRimClaves::DrumsRimClaves()
 	inputs.resize(NUM_INPUTS);
 	outputs.resize(NUM_OUTPUTS);
 	
-	trigger.setThresholds(0.0, 1.0);
+	// trigger.setThresholds(0.0, 1.0);
 	
    
     
@@ -93,7 +93,7 @@ void DrumsRimClaves::step()
 {
     
     
-    light -= light / 0.75 / gSampleRate;
+    light -= light / 0.75 * engineGetSampleTime();
    
     
     if (sampletypeselector.process(params[SAMPLETYPE].value))
@@ -253,19 +253,11 @@ void DrumsRimClaves::step()
     
 }
 
-DrumsRimClavesWidget::DrumsRimClavesWidget()
+struct DrumsRimClavesWidget : ModuleWidget
 {
-	DrumsRimClaves *module = new DrumsRimClaves();
-	setModule(module);
-	box.size = Vec(15 * 4, 380);
-
-	{
-        SVGPanel *panel = new SVGPanel();
-        panel->box.size = box.size;
-                panel->setBackground(SVG::load(assetPlugin(plugin, "res/DrumsRimClaves.svg")));
-     
-        addChild(panel);
-	}
+DrumsRimClavesWidget(DrumsRimClaves *module) : ModuleWidget(module)
+{
+	setPanel(SVG::load(assetPlugin(plugin, "res/DrumsRimClaves.svg")));
 
 	addChild(createScrew<ScrewSilver>(Vec(15,   0)));
 	addChild(createScrew<ScrewSilver>(Vec(15, 365)));
@@ -276,16 +268,16 @@ DrumsRimClavesWidget::DrumsRimClavesWidget()
     
      
     
-    addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(26,65), &module->light));
+    // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(26,65), &module->light));
 	
-    addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,100), &module->lights[0]));
-    addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,125), &module->lights[1]));
-    addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,150), &module->lights[2]));
-     addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,175), &module->lights[3]));
-     addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,200), &module->lights[4]));
-     addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,225), &module->lights[5]));
-     addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,250), &module->lights[6]));
-     addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,275), &module->lights[7]));
+    // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,100), &module->lights[0]));
+    // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,125), &module->lights[1]));
+    // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,150), &module->lights[2]));
+    //  addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,175), &module->lights[3]));
+    //  addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,200), &module->lights[4]));
+    //  addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,225), &module->lights[5]));
+    //  addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,250), &module->lights[6]));
+    //  addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,275), &module->lights[7]));
 
     
 
@@ -293,3 +285,6 @@ DrumsRimClavesWidget::DrumsRimClavesWidget()
 	addOutput(createOutput<PJ3410Port>(Vec(30, 300), module, DrumsRimClaves::AUDIO_OUTPUT));
 
 }
+};
+
+Model *modelRimClaves = Model::create<DrumsRimClaves,DrumsRimClavesWidget>("Autodafe - Drum Kit", "Drums - Rim/Claves", "Drums - Rim/Claves",OSCILLATOR_TAG);

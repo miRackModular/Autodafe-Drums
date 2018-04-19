@@ -427,18 +427,11 @@ float mixR = (ch1R + ch2R + ch3R +ch4R + ch5R + ch6R + ch7R + ch8R) * params[MIX
 
 
 
-DrumsMixerWidget::DrumsMixerWidget() {
-	DrumsMixer *module = new DrumsMixer();
-	setModule(module);
-	box.size = Vec(15*37, 380);
-
-	{
-		SVGPanel *panel = new SVGPanel();
-		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/DrumsMixer.svg")));
-		
-		addChild(panel);
-	} 
+struct DrumsMixerWidget : ModuleWidget
+{
+DrumsMixerWidget(DrumsMixer *module) : ModuleWidget(module)
+{
+	setPanel(SVG::load(assetPlugin(plugin, "res/DrumsMixer.svg")));
 
 
 	addChild(createScrew<ScrewSilver>(Vec(2, 0)));
@@ -475,14 +468,14 @@ DrumsMixerWidget::DrumsMixerWidget() {
 	   addParam(createParam<LEDButton>(Vec(350+3, 280), module, DrumsMixer::CH7MUTE, 0.0, 1.0, 0.0));
 	   addParam(createParam<LEDButton>(Vec(400+3, 280), module, DrumsMixer::CH8MUTE, 0.0, 1.0, 0.0));
 
-	   addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(50+8, 280+5), &module->ch1MuteLight));
-	   addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(100+8, 280+5), &module->ch2MuteLight));
-	   addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(150+8, 280+5), &module->ch3MuteLight));
-	   addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(200+8, 280+5), &module->ch4MuteLight));
-	   addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(250+8, 280+5), &module->ch5MuteLight));
-	   addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(300+8, 280+5), &module->ch6MuteLight));
-	   addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(350+8, 280+5), &module->ch7MuteLight));
-	   addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(400+8, 280+5), &module->ch8MuteLight));
+	   // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(50+8, 280+5), &module->ch1MuteLight));
+	   // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(100+8, 280+5), &module->ch2MuteLight));
+	   // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(150+8, 280+5), &module->ch3MuteLight));
+	   // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(200+8, 280+5), &module->ch4MuteLight));
+	   // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(250+8, 280+5), &module->ch5MuteLight));
+	   // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(300+8, 280+5), &module->ch6MuteLight));
+	   // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(350+8, 280+5), &module->ch7MuteLight));
+	   // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(400+8, 280+5), &module->ch8MuteLight));
 
 
 
@@ -545,3 +538,6 @@ DrumsMixerWidget::DrumsMixerWidget() {
 
 
 }
+};
+
+Model *modelMixer = Model::create<DrumsMixer,DrumsMixerWidget>("Autodafe - Drum Kit", "Drums - 8-Channel Mixer", "Drums - 8-Channel Mixer",OSCILLATOR_TAG);

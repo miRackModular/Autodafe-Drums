@@ -29,7 +29,7 @@ void init(rack::Plugin *p) {
     #ifdef VERSION
     p->version = TOSTRING(VERSION);
     #endif
-		
+
     p->addModel(modelSnare);
     p->addModel(modelKick);
     p->addModel(modelClaps);

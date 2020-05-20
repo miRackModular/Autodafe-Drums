@@ -21,8 +21,6 @@ struct DrumsHiHatClosed : Module {
 	SchmittTrigger trigger;
 	SchmittTrigger sampletypeselector;
     int sampletype = 1;
-    float lights[8]={};
-    float light=0;
        unsigned int count1 = 0;
     unsigned int count2 = 0;
     unsigned int count3 = 0;
@@ -58,17 +56,8 @@ struct DrumsHiHatClosed : Module {
     
 };
 
-DrumsHiHatClosed::DrumsHiHatClosed()
+DrumsHiHatClosed::DrumsHiHatClosed() : Module(NUM_PARAMS,NUM_INPUTS,NUM_OUTPUTS,9)
 {
-	params.resize(NUM_PARAMS);
-	inputs.resize(NUM_INPUTS);
-	outputs.resize(NUM_OUTPUTS);
-	
-	// trigger.setThresholds(0.0, 1.0);
-	
-   
-    
-    
 	// disarm
     
     count1  = HHCL_sample1_len;
@@ -93,11 +82,11 @@ void DrumsHiHatClosed::step()
 {
     
     
-    light -= light / 0.75 * engineGetSampleTime();
+    lights[0].value -= lights[0].value / 0.75 / engineGetSampleRate();
    
     
     if (sampletypeselector.process(params[SAMPLETYPE].value))
-    { light = 1.0;
+    { lights[0].value = 1.0;
          if (sampletype<numsamples) {
         sampletype++;
             
@@ -108,14 +97,14 @@ void DrumsHiHatClosed::step()
         }
     }
     for (int i = 0; i < numsamples; i++) {
-        lights[i]=0.0;
+        lights[1+i].value=0.0;
   
-        lights[sampletype-1]=1.0;
+        lights[1+sampletype-1].value=1.0;
     }
    
     
-	if (trigger.process(inputs[TRIG_INPUT].value)) {
-		count1 = 0;
+    if (trigger.process(inputs[TRIG_INPUT].value)) {
+        count1 = 0;
         count2 = 0;
         count3 = 0;
         count4 = 0;
@@ -123,8 +112,9 @@ void DrumsHiHatClosed::step()
         count6 = 0;
         count7 = 0;
         count8 = 0;
-        
-	}
+        lights[0].value = 1;
+    }
+
     
     
 	if (sampletype == 1)
@@ -268,16 +258,16 @@ DrumsHiHatClosedWidget(DrumsHiHatClosed *module) : ModuleWidget(module)
     
     
     
-    // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(26,65), &module->light));
-	
-    // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,100), &module->lights[0]));
-    // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,125), &module->lights[1]));
-    // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,150), &module->lights[2]));
-    //  addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,175), &module->lights[3]));
-    //  addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,200), &module->lights[4]));
-    //  addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,225), &module->lights[5]));
-    //  addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,250), &module->lights[6]));
-    //  addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,275), &module->lights[7]));
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(26,65), module, 0));
+    
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(10,100), module, 1));
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(10,125), module, 2));
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(10,150), module, 3));
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(10,175), module, 4));
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(10,200), module, 5));
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(10,225), module, 6));
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(10,250), module, 7));
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(10,275), module, 8));
 
     
 
@@ -288,4 +278,4 @@ DrumsHiHatClosedWidget(DrumsHiHatClosed *module) : ModuleWidget(module)
 };
 
 
-Model *modelHiHatClosed = Model::create<DrumsHiHatClosed,DrumsHiHatClosedWidget>("Autodafe - Drum Kit", "Drums - Closed Hats", "Drums - Closed Hats",OSCILLATOR_TAG);
+Model *modelHiHatClosed = Model::create<DrumsHiHatClosed,DrumsHiHatClosedWidget>("Autodafe-DrumKit", "Drums - Closed Hats", "Closed Hats",DRUM_TAG);

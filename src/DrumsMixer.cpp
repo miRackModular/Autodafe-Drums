@@ -115,14 +115,6 @@ float ch7m;
 float ch8m;
 
 
-float ch1MuteLight;
-float ch2MuteLight;
-float ch3MuteLight;
-float ch4MuteLight;
-float ch5MuteLight;
-float ch6MuteLight;
-float ch7MuteLight;
-float ch8MuteLight;
 
 
 
@@ -220,10 +212,7 @@ void initialize() {
 };
 
 
-DrumsMixer::DrumsMixer() {
-	params.resize(NUM_PARAMS);
-	inputs.resize(NUM_INPUTS);
-	outputs.resize(NUM_OUTPUTS);
+DrumsMixer::DrumsMixer() : Module(NUM_PARAMS,NUM_INPUTS,NUM_OUTPUTS,8) {
 
 ch1m = false;
 			ch2m = false;
@@ -317,7 +306,7 @@ void DrumsMixer::step() {
 		ch1m = !ch1m;
 		
 	}
-	ch1MuteLight = ch1m ? 1.0 : 0.0;
+	lights[0].value = ch1m ? 1.0 : 0.0;
 
 
 
@@ -325,49 +314,49 @@ void DrumsMixer::step() {
 		ch2m = !ch2m  ;
 		
 	}
-	ch2MuteLight = ch2m ? 1.0 : 0.0;
+	lights[1].value = ch2m ? 1.0 : 0.0;
 
 
 	if (ch3mute.process(params[CH3MUTE].value)) {
 		ch3m = !ch3m;
 		
 	}
-	ch3MuteLight = ch3m ? 1.0 : 0.0;
+	lights[2].value = ch3m ? 1.0 : 0.0;
 
 
 	if (ch4mute.process(params[CH4MUTE].value)) {
 		ch4m = !ch4m;
 		
 	}
-	ch4MuteLight = ch4m ? 1.0 : 0.0;
+	lights[3].value = ch4m ? 1.0 : 0.0;
 
 	
 	if (ch5mute.process(params[CH5MUTE].value)) {
 		ch5m = !ch5m;
 		
 	}
-	ch5MuteLight = ch5m ? 1.0 : 0.0;
+	lights[4].value = ch5m ? 1.0 : 0.0;
 
 
 	if (ch6mute.process(params[CH6MUTE].value)) {
 		ch6m = !ch6m;
 	
 	}
-	ch6MuteLight = ch6m ? 1.0 : 0.0;
+	lights[5].value = ch6m ? 1.0 : 0.0;
 
 
 	if (ch7mute.process(params[CH7MUTE].value)) {
 		ch7m = !ch7m;
 	
 	}
-	ch7MuteLight = ch7m ? 1.0 : 0.0;
+	lights[6].value = ch7m ? 1.0 : 0.0;
 
 
 	if (ch8mute.process(params[CH8MUTE].value)) {
 		ch8m = !ch8m;
 		
 	}
-	ch8MuteLight = ch8m ? 1.0 : 0.0;
+	lights[7].value = ch8m ? 1.0 : 0.0;
 
 
  
@@ -468,14 +457,14 @@ DrumsMixerWidget(DrumsMixer *module) : ModuleWidget(module)
 	   addParam(createParam<LEDButton>(Vec(350+3, 280), module, DrumsMixer::CH7MUTE, 0.0, 1.0, 0.0));
 	   addParam(createParam<LEDButton>(Vec(400+3, 280), module, DrumsMixer::CH8MUTE, 0.0, 1.0, 0.0));
 
-	   // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(50+8, 280+5), &module->ch1MuteLight));
-	   // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(100+8, 280+5), &module->ch2MuteLight));
-	   // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(150+8, 280+5), &module->ch3MuteLight));
-	   // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(200+8, 280+5), &module->ch4MuteLight));
-	   // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(250+8, 280+5), &module->ch5MuteLight));
-	   // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(300+8, 280+5), &module->ch6MuteLight));
-	   // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(350+8, 280+5), &module->ch7MuteLight));
-	   // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(400+8, 280+5), &module->ch8MuteLight));
+	   addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(50+8, 280+5), module, 0));
+	   addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(100+8, 280+5), module, 1));
+	   addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(150+8, 280+5), module, 2));
+	   addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(200+8, 280+5), module, 3));
+	   addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(250+8, 280+5), module, 4));
+	   addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(300+8, 280+5), module, 5));
+	   addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(350+8, 280+5), module, 6));
+	   addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(400+8, 280+5), module, 7));
 
 
 
@@ -540,4 +529,4 @@ DrumsMixerWidget(DrumsMixer *module) : ModuleWidget(module)
 }
 };
 
-Model *modelMixer = Model::create<DrumsMixer,DrumsMixerWidget>("Autodafe - Drum Kit", "Drums - 8-Channel Mixer", "Drums - 8-Channel Mixer",OSCILLATOR_TAG);
+Model *modelMixer = Model::create<DrumsMixer,DrumsMixerWidget>("Autodafe-DrumKit", "Drums - 8-Channel Mixer", "8-Channel Mixer",MIXER_TAG);

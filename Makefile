@@ -4,4 +4,4 @@ VERSION = 0.6.0
 
 SOURCES = $(wildcard src/*.cpp)
 
-include ../../plugin.mk
+include $(RACK_DIR)/plugin.mk

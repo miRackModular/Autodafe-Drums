@@ -21,8 +21,6 @@ struct DrumsSnare : Module {
 	SchmittTrigger trigger;
 	SchmittTrigger sampletypeselector;
     int sampletype = 1;
-    float lights[8]={};
-    float light=0;
        unsigned int count1 = 0;
     unsigned int count2 = 0;
     unsigned int count3 = 0;
@@ -57,17 +55,8 @@ struct DrumsSnare : Module {
     
 };
 
-DrumsSnare::DrumsSnare()
-{
-	params.resize(NUM_PARAMS);
-	inputs.resize(NUM_INPUTS);
-	outputs.resize(NUM_OUTPUTS);
-	
-	// trigger.setThresholds(0.0, 1.0);
-	
-   
-    
-    
+DrumsSnare::DrumsSnare() : Module(NUM_PARAMS,NUM_INPUTS,NUM_OUTPUTS,9)
+{	
 	// disarm
     
     count1  = SNARE_sample1_len;
@@ -98,11 +87,11 @@ void DrumsSnare::step()
 {
     
     
-    light -= light / 0.75 / engineGetSampleRate();
+    lights[0].value -= lights[0].value / 0.75 / engineGetSampleRate();
    
     
     if (sampletypeselector.process(params[SAMPLETYPE].value))
-    { light = 1.0;
+    { lights[0].value = 1.0;
          if (sampletype<numsamples) {
         sampletype++;
             
@@ -113,9 +102,9 @@ void DrumsSnare::step()
         }
     }
     for (int i = 0; i < numsamples; i++) {
-        lights[i]=0.0;
+        lights[1+i].value=0.0;
   
-        lights[sampletype-1]=1.0;
+        lights[1+sampletype-1].value=1.0;
     }
    
     
@@ -128,7 +117,7 @@ void DrumsSnare::step()
         count6 = 0;
         count7 = 0;
         count8 = 0;
-        
+        lights[0].value = 1;
 	}
     
     
@@ -273,16 +262,16 @@ DrumsSnareWidget(DrumsSnare *module) : ModuleWidget(module)
     
     
     
-    // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(26,65), &module->light));
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(26,65), module, 0));
 	
-    // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,100), &module->lights[0]));
-    // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,125), &module->lights[1]));
-    // addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,150), &module->lights[2]));
-    //  addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,175), &module->lights[3]));
-    //  addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,200), &module->lights[4]));
-    //  addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,225), &module->lights[5]));
-    //  addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,250), &module->lights[6]));
-    //  addChild(createValueLight<SmallLight<GreenValueLight>>(Vec(10,275), &module->lights[7]));
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(10,100), module, 1));
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(10,125), module, 2));
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(10,150), module, 3));
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(10,175), module, 4));
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(10,200), module, 5));
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(10,225), module, 6));
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(10,250), module, 7));
+    addChild(ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(10,275), module, 8));
 
     
 
@@ -292,4 +281,4 @@ DrumsSnareWidget(DrumsSnare *module) : ModuleWidget(module)
 }
 };
 
-Model *modelSnare = Model::create<DrumsSnare,DrumsSnareWidget>("Autodafe - Drum Kit", "Drums - Snare", "Drums - Snare",OSCILLATOR_TAG);
+Model *modelSnare = Model::create<DrumsSnare,DrumsSnareWidget>("Autodafe-DrumKit", "Drums - Snare", "Snare",DRUM_TAG);

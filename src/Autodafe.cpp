@@ -25,7 +25,7 @@ extern Model *modelMixer;
 
 void init(rack::Plugin *p) {
 	plugin = p;
-	plugin->slug = "Autodafe - Drum Kit";
+	plugin->slug = "Autodafe-DrumKit";
     #ifdef VERSION
     p->version = TOSTRING(VERSION);
     #endif
